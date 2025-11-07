@@ -1,16 +1,64 @@
-# React + Vite
+Testube is an interactive web app designed to help users strengthen their reasoning and alphabet-based logic skills through fun, test-style exercises.
+It focuses on concepts like Place Value of Characters (A–Z) and Reverse Character Matching, making logical learning engaging and gamified.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 Features
 
-Currently, two official plugins are available:
+🧠 Place Value Test — Practice finding numeric values of alphabets (A=1, B=2, … Z=26).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔄 Reverse Character Test — Identify the reverse character of letters (Z=A, Y=B, … A=Z).
 
-## React Compiler
+⏱️ Timed Tests — Challenge yourself with time-based quizzes.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+📊 Score Tracking — Keep track of your accuracy and speed.
 
-## Expanding the ESLint configuration
+🌈 Clean UI — Built with React and Tailwind CSS for a modern look and responsive design.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🧭 Explore & Learn — Discover new tests and improve reasoning skills day by day.
+
+🖥️ Tech Stack
+Category	Technology Used
+Frontend	React.js
+Styling	Tailwind CSS
+Icons	Lucide React
+State Management	React Hooks
+Deployment	Vercel
+📖 Pages Overview
+🏠 Home Page
+
+Gives a brief introduction and allows users to start a test quickly.
+
+💡 About Page
+
+Explains the purpose of Testube, how it helps users, and key features of the app.
+
+🔍 Explore Page
+
+Lists all available test categories (Place Value, Reverse Matching, etc.) and shows upcoming ones.
+
+📩 Contact Page
+
+Lets users share feedback, report bugs, or suggest new test ideas.
+
+🧩 How It Works
+
+Select a test type from the Explore page.
+
+Answer multiple questions related to letter place values or reverse matches.
+
+Get instant feedback and see your score at the end.
+
+Track your progress over multiple attempts.
+
+🧠 Example
+Character  values
+A	           1	
+M	          13
+Z	          26	
+💬 Contact
+
+Developer: Manoj Kumar
+Email: manojkumarmmmut@gmail.com
+
+Location: Gorakhpur, Uttar Pradesh, India
+
+“Test your mind. Sharpen your logic. Learn playfully with Testube.”
