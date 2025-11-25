@@ -1,35 +1,57 @@
-import { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, useCallback, useLayoutEffect } from 'react'
+
+const STORAGE_KEY = 'theme'
 
 const ThemeContext = createContext({ theme: 'light', toggle: () => {} })
 
+function resolveInitialTheme() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return 'light'
+  }
+  const saved = window.localStorage.getItem(STORAGE_KEY)
+  if (saved === 'dark' || saved === 'light') {
+    return saved
+  }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+function applyTheme(theme) {
+  if (typeof document === 'undefined') return
+  const root = document.documentElement
+  const isDark = theme === 'dark'
+
+  root.classList.toggle('dark', isDark)
+  root.classList.toggle('light', !isDark)
+  root.dataset.theme = theme
+  root.style.colorScheme = isDark ? 'dark' : 'light'
+}
+
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'light'
-    const saved = localStorage.getItem('theme')
-    if (saved === 'dark' || saved === 'light') return saved
-    // Prefer system
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  })
+  const [theme, setTheme] = useState(resolveInitialTheme)
+
+  useLayoutEffect(() => {
+    applyTheme(theme)
+  }, [])
 
   useEffect(() => {
-    const root = document.documentElement
-    // Remove both classes first to avoid conflicts
-    root.classList.remove('dark', 'light')
-    
-    // Apply the current theme
-    if (theme === 'dark') {
-      root.classList.add('dark')
-    }
-    
-    // Save to localStorage
-    localStorage.setItem('theme', theme)
+    applyTheme(theme)
+    window.localStorage.setItem(STORAGE_KEY, theme)
   }, [theme])
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = (event) => {
+      const saved = window.localStorage.getItem(STORAGE_KEY)
+      if (saved === 'dark' || saved === 'light') return
+      setTheme(event.matches ? 'dark' : 'light')
+    }
+    mq.addEventListener('change', handleChange)
+    return () => mq.removeEventListener('change', handleChange)
+  }, [])
+
   const toggle = useCallback(() => {
-    setTheme((prevTheme) => {
-      const newTheme = prevTheme === 'dark' ? 'light' : 'dark'
-      return newTheme
-    })
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'))
   }, [])
 
   const ctx = useMemo(() => ({ theme, toggle }), [theme, toggle])
@@ -43,23 +65,17 @@ export function useTheme() {
 
 export function ThemeToggle({ className = '' }) {
   const { theme, toggle } = useTheme()
-  
-  const handleClick = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (toggle) {
-      toggle()
-    }
-  }
-  
+  const isDark = theme === 'dark'
+
   return (
     <button
       type="button"
-      onClick={handleClick}
+      onClick={toggle}
       aria-label="Toggle theme"
+      aria-pressed={isDark}
       className={`inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${className}`}
     >
-      {theme === 'dark' ? (
+      {isDark ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
